@@ -43,6 +43,25 @@ void setup() {
 }
 
 void loop() {
+
+  //IMU telemetry
+  sensors_event_t event; 
+  bno.getEvent(&event);
+  Serial.print("X: ");
+  Serial.print(event.orientation.x, 4);
+  Serial.print("\tY: ");
+  Serial.print(event.orientation.y, 4);
+  Serial.print("\tZ: ");
+  Serial.print(event.orientation.z, 4);
+  Serial.println("");
+
+  //RC telemetry
+    Serial.print(pwmDutyCycle_throttle);
+    Serial.print('\t');
+    Serial.print(pwmDutyCycle_steering);
+    Serial.print('\t');
+    Serial.println(pwmDutyCycle_mode);
+
   controlTask();
   activationTask();
   blinkTask();
@@ -70,7 +89,7 @@ void motionController() {
   imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
   imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
 
-  if (abs(euler.z()) > TILT_LIMIT){
+  if (abs(euler.y()) > TILT_LIMIT){
     tilt_limit_exceeded = true;
   }
   else{
@@ -78,11 +97,11 @@ void motionController() {
   }
 
   // balance controller
-  float balanceControllerOutput = euler.z() * KP_BALANCE + gyro.x() * KD_BALANCE;
+  float balanceControllerOutput = euler.y() * KP_BALANCE + gyro.x() * KD_BALANCE;
 
   // planar controllera (lateral position and steering angle)
   float positionControllerOutput = KP_POSITION * (pwmDutyCycle_throttle - PWM_CENTER);
-  float steeringControllerOutput = KP_STEERING * (pwmDutyCycle_steering - PWM_CENTER) + gyro.z() * KD_ORIENTATION;  
+  float steeringControllerOutput = KP_STEERING * (pwmDutyCycle_steering - PWM_CENTER) + gyro.y() * KD_ORIENTATION;  
 
   float controllerOutput_right = balanceControllerOutput + positionControllerOutput + steeringControllerOutput;
   float controllerOutput_left  = balanceControllerOutput + positionControllerOutput - steeringControllerOutput;

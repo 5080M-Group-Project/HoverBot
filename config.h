@@ -13,16 +13,16 @@
 #define MOTORDIR_1 1
 
 // CONTROLLER
-#define KP_BALANCE 0.4
+#define KP_BALANCE 0.1
 #define KD_BALANCE -0.065
 #define KP_POSITION 0.015
-#define KP_STEERING 0.01
+#define KP_STEERING 0.00
 #define KD_ORIENTATION 0.01
 #define TILT_LIMIT 40
 
 // RADIO CONTROL
 #define ENGAGE_THRESHOLD 1500
-#define PWM_CENTER 1500
+#define PWM_CENTER 1472
 // RC Receiver Pin Definitions
 
 
