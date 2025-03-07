@@ -21,8 +21,15 @@
 #define TILT_LIMIT 40
 
 // RADIO CONTROL
-#define ENGAGE_THRESHOLD 1500
-#define PWM_CENTER 1500
+//#define ENGAGE_THRESHOLD 1500
+//#define PWM_CENTER 1500
+// RC Receiver Pin Definitions
+#define CH1 2  // Right stick horizontal (not used in this version)
+#define CH2 3  // Right stick vertical (Forward/Backward velocity)
+#define CH3 18 // Left stick vertical (not used in this version)
+
+// Joystick Offset Correction
+const int joystick_offset = 1;  // Adjust to neutralize drift
 
 // SCHEDULING
 #define BLINK_INTERVAL 200
