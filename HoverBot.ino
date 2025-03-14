@@ -44,27 +44,29 @@ void setup() {
 
 void loop() {
 
-  //IMU telemetry
-  sensors_event_t event; 
-  bno.getEvent(&event);
-  Serial.print("X: ");
-  Serial.print(event.orientation.x, 4);
-  Serial.print("\tY: ");
-  Serial.print(event.orientation.y, 4);
-  Serial.print("\tZ: ");
-  Serial.print(event.orientation.z, 4);
-  Serial.println("");
-
+  
   //RC telemetry
-    Serial.print(pwmDutyCycle_throttle);
-    Serial.print('\t');
-    Serial.print(pwmDutyCycle_steering);
-    Serial.print('\t');
-    Serial.println(pwmDutyCycle_mode);
+    //Serial.print(pwmDutyCycle_throttle);
+    //Serial.print('\t');
+    //Serial.print(pwmDutyCycle_steering);
+    //Serial.print('\t');
+    //Serial.println(pwmDutyCycle_mode);
+    imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 
   controlTask();
   activationTask();
   blinkTask();
+  //IMU telemetry
+  sensors_event_t event; 
+  bno.getEvent(&event);
+  //Serial.print("X: ");
+  //Serial.print(event.orientation.x, 4);
+  Serial.print("Pitch (euler.y): ");
+  Serial.println(euler.y(), 4);  // Print with 4 decimal places for accuracy
+  //Serial.print("\tZ: ");
+  //Serial.print(event.orientation.z, 4);
+  //Serial.println("");
+
 }
 
 void controlTask() {
@@ -97,7 +99,7 @@ void motionController() {
   }
 
   // balance controller
-  float balanceControllerOutput = euler.y() * KP_BALANCE + gyro.x() * KD_BALANCE;
+  float balanceControllerOutput = (euler.y()) * KP_BALANCE + gyro.x() * KD_BALANCE;
 
   // planar controllera (lateral position and steering angle)
   float positionControllerOutput = KP_POSITION * (pwmDutyCycle_throttle +28 - PWM_CENTER);
