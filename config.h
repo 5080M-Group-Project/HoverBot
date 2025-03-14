@@ -22,7 +22,7 @@
 
 // RADIO CONTROL
 #define ENGAGE_THRESHOLD 1500
-#define PWM_CENTER 1472
+#define PWM_CENTER 1500
 // RC Receiver Pin Definitions
 
 
