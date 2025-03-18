@@ -99,11 +99,11 @@ void motionController() {
   }
 
   // balance controller
-  float balanceControllerOutput = (euler.y()) * KP_BALANCE + gyro.x() * KD_BALANCE;
+  float balanceControllerOutput = (euler.y()) * KP_BALANCE + gyro.y() * KD_BALANCE;
 
   // planar controllera (lateral position and steering angle)
   float positionControllerOutput = KP_POSITION * (pwmDutyCycle_throttle +28 - PWM_CENTER);
-  float steeringControllerOutput = KP_STEERING * (pwmDutyCycle_steering +8 - PWM_CENTER) + gyro.y() * KD_ORIENTATION;  
+  float steeringControllerOutput = KP_STEERING * (pwmDutyCycle_steering +8 - PWM_CENTER) + gyro.z() * KD_ORIENTATION;  
 
   float controllerOutput_right = balanceControllerOutput + positionControllerOutput + steeringControllerOutput;
   float controllerOutput_left  = balanceControllerOutput + positionControllerOutput - steeringControllerOutput;
