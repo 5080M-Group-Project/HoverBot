@@ -105,10 +105,10 @@ void motionController() {
   float positionControllerOutput = KP_POSITION * (pwmDutyCycle_throttle +28 - PWM_CENTER);
   float steeringControllerOutput = KP_STEERING * (pwmDutyCycle_steering +8 - PWM_CENTER) + gyro.z() * KD_ORIENTATION;  
 
-  float controllerOutput_right = balanceControllerOutput + positionControllerOutput + steeringControllerOutput;
-  float controllerOutput_left  = balanceControllerOutput + positionControllerOutput - steeringControllerOutput;
+  float controllerOutput_right = balanceControllerOutput + positionControllerOutput - steeringControllerOutput;
+  float controllerOutput_left  = balanceControllerOutput + positionControllerOutput + steeringControllerOutput;
   
-  odrive.SetCurrent(0, MOTORDIR_0 * controllerOutput_right);
+  odrive.SetCurrent(0, MOTORDIR_0 * 0.85*controllerOutput_right);
   odrive.SetCurrent(1, MOTORDIR_1 * controllerOutput_left);
 }
 
